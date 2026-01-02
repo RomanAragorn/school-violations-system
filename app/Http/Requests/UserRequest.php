@@ -24,8 +24,7 @@ class UserRequest extends FormRequest
         return [
             'email' => [
                 'required',
-                'email',
-                'ends_with:@iskolarngbayan.pup.edu, @pup.edu.ph'
+                'ends_with:@iskolarngbayan.pup.edu.ph,@pup.edu.ph'
             ],
             'password' => ['required']
         ];
