@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('show.login');
-});
+})->middleware('RedirectIfAuth');
 
 
 Route::group(['middleware' => 'guest'], function () {
     
     // Login Form
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');
+    Route::get('/login', action: [AuthController::class, 'showLogin'])->name('show.login');
 
     // Post Login Form
     Route::post('login', [AuthController::class, 'login'])->name('login');
