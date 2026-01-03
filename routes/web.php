@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\ViolationOverviewController;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ Route::group(['middleware' => 'guest'], function () {
     // Post Login Form
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 });
-
+ 
 
 // Authenticated Routes
 Route::group(['middleware' => 'auth'], function () {
@@ -46,5 +47,3 @@ Route::group(['middleware' => 'auth'], function () {
     //Logout user
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-
