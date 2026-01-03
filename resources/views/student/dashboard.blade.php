@@ -14,6 +14,24 @@
         @csrf
         <button type="submit">Logout</button>
     </form>
+
+    <div class="">
+        <div class="">
+            First Name: {{ $user->first_name }}
+        </div>
+        <div class="">
+            Violation Count: {{ $violationCount }}
+        </div>
+        <div class="">
+
+            Violation Records: 
+            @foreach ($violationRecords as $violationRecord)
+            <div class="">
+                {{ $violationRecord }}
+            </div>
+            @endforeach
+        </div>
+    </div>
 </body>
 
 </html>
