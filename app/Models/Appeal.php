@@ -11,7 +11,8 @@ class Appeal extends Model
     
     protected $fillable = [
         'appeal_content',
-        'violation_record_id'
+        'violation_record_id',
+        'is_accepted',
     ];
 
     protected $casts = [

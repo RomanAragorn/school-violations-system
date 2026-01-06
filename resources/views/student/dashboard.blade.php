@@ -143,6 +143,16 @@
                                 </select>
                             </div>
                             <div class="m-4">
+                                {{-- Show appeal submission errors --}}
+                                @if($errors->any())
+                                @foreach($errors->all() as $error)
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ $error }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                                @endforeach
+                                @endif
+
                                 <table class="table table-hover align-middle mb-0">
                                     <thead class="table-light">
                                         <tr style="font-size: 13px;">
@@ -204,11 +214,12 @@
                                                         title="appeal">
                                                     <button class="btn btn-sm btn-danger px-3 rounded-2 fw-bold"
                                                         style="font-size: 11px;" data-bs-toggle="modal"
-                                                        data-bs-target="#appealModal"
-                                                        data-violation-id="{{ $record->id }}">
+                                                        data-bs-target="#appealModal-{{ $record->id }}">
                                                         APPEAL
                                                     </button>
                                                 </div>
+                                                <x-appeal-modal :violation="$record" :id="'appealModal-'.$record->id" />
+
                                             </td>
                                         </tr>
                                         @empty
@@ -231,63 +242,6 @@
         </div>
     </div>
 
-    {{-- Mock Bootstrap Appeal Modal --}}
-    <div class="modal fade" id="appealModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-
-                <p>Appealing violation record ID: <span id="violation-record-id"></span> </p>
-
-                <form method="POST" action="{{ route('appeal.store') }}">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title">Submit Appeal</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <input type="hidden" name="violation_record_id" id="violation_record_id">
-
-                        <div class="mb-3">
-                            <label class="form-label">Reason for Appeal</label>
-                            <textarea name="appeal_content"
-                                class="form-control @error('appeal_content') is-invalid @enderror" rows="5"
-                                required></textarea>
-
-                            @if ($errors->any())
-                            @foreach ($errors->all() as $error)
-                            <div class="alert alert-danger">{{ $error }}</div>
-                            @endforeach
-                            @endif
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">
-                            Submit Appeal
-                        </button>
-                    </div>
-
-                </form>
-
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const appealModal = document.getElementById('appealModal');
-        appealModal.addEventListener('show.bs.modal', event => {
-            const button = event.relatedTarget;
-            const recordId = button.getAttribute('data-violation-id');
-
-            // Input Value
-            appealModal.querySelector('#violation_record_id').value = recordId;
-
-            //UI Content
-            appealModal.querySelector('#violation-record-id').textContent = recordId;
-        });
-    </script>
 </body>
 
 </html>
