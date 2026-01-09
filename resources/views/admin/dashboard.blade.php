@@ -64,26 +64,11 @@
                             <td>{{ $record->created_at->format('Y-m-d') }}</td>
 
                             <td>
-                                @php $offense = $record->violationSanction->offense_level ?? 'N/A'; @endphp
-                                @if($offense == 'First Offense') <span class="badge badge-offense-1">FIRST
-                                    OFFENSE</span>
-                                @elseif($offense == 'Second Offense') <span class="badge badge-offense-2">SECOND
-                                    OFFENSE</span>
-                                @elseif($offense == 'Third Offense') <span class="badge badge-offense-3">THIRD
-                                    OFFENSE</span>
-                                @else <span class="badge bg-secondary">{{ $offense }}</span>
-                                @endif
+                                <x-offense-badge :offense="$record->violationSanction->offense_level" />
                             </td>
 
                             <td>
-                                @php
-                                $status = $record->status->name ?? 'Unknown';
-                                $bg = 'bg-secondary';
-                                if(stripos($status, 'Pending') !== false) $bg = 'badge-pending';
-                                elseif(stripos($status, 'Review') !== false) $bg = 'badge-review';
-                                elseif(stripos($status, 'Resolved') !== false) $bg = 'badge-resolved';
-                                @endphp
-                                <span class="badge {{ $bg }}">{{ $status }}</span>
+                                <x-status-badge :status="$record->status->status_name" />
                             </td>
 
                             <td>{{ $record->violationSanction->sanction->name ?? 'N/A' }}</td>
@@ -99,13 +84,15 @@
                                     data-status="{{ $record->status->name ?? 'Unknown' }}"
                                     data-sanction="{{ $record->violationSanction->sanction->name ?? 'N/A' }}"
                                     data-description="{{ $record->description ?? 'No specific description provided.' }}">
-                                    <i class="fas fa-eye"></i>
+                                    <i class="bi bi-eye-fill"></i>
                                 </button>
 
-                                <button class="btn-action-edit" onclick="editCase('{{ $record->id }}')"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="btn-action-delete" onclick="confirmDelete('{{ $record->id }}')"><i
-                                        class="fas fa-trash"></i></button>
+                                <button class="btn-action-edit" onclick="editCase('{{ $record->id }}')">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button class="btn-action-delete" onclick="confirmDelete('{{ $record->id }}')">
+                                    <i class="bi bi-trash text-red"></i>
+                                </button>
                             </td>
                         </tr>
                         @empty
@@ -116,7 +103,10 @@
                     </tbody>
                 </table>
             </div>
-            <small class="text-muted" id="rowCounter">Showing {{ $violationRecordCount }} violations</small>
+            <div class="d-flex flex-column justify-content-end align-items-end mx-3">
+                <small class="text-muted" id="rowCounter">Showing {{ $violationRecordCount }} violations</small>
+                <span class="">{{ $violationRecords->links() }}</span>
+            </div>
         </div>
     </div>
 

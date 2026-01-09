@@ -13,7 +13,10 @@ class DashboardController extends Controller
     {
         $violations = Violation::all();
 
-        $violationRecords = ViolationRecord::all();
+        $violationRecords = ViolationRecord
+            ::with(['status', 'violationSanction.violation', 'violationSanction.sanction', 'appeal'])
+            ->latest()
+            ->paginate(10);
 
         $violationRecordCount = ViolationRecord::all()->count();
 
@@ -23,6 +26,7 @@ class DashboardController extends Controller
 
         $resolvedCount = ViolationRecord::where('status_id', 3)->count();
 
+        // return response()->json($violationRecords);
         return view('admin.dashboard', compact('violations', 'violationRecords', 'violationRecordCount', 'under_reviewCount', 'pendingCount', 'resolvedCount'));
     }
 }
