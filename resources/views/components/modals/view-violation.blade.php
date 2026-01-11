@@ -1,8 +1,8 @@
 <div class="modal fade" id="{{ $id }}" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0">
-            <div class="modal-header modal-header-teal">
-                <h5 class="modal-title fw-bold">Violation Details</h5>
+            <div class="modal-header bg-info">
+                <h5 class="modal-title fw-bold text-white">Violation Details</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
 
                 </button>
