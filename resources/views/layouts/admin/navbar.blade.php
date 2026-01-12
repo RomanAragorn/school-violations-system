@@ -6,20 +6,17 @@
                 <i class="bi bi-list text-primary fs-3"></i>
             </button>
 
-            <div>
+            <a href="{{ route('admin.dashboard.index') }}" class="text-decoration-none d-block">
                 <h5 class="mb-0 fw-bold" style="color: #800000;">Violations Management</h5>
 
                 <small class="text-muted">
                     @yield('navbar-title', '')
                 </small>
-            </div>
+            </a>
         </div>
 
         <div class="d-flex align-items-center">
             <div class="d-flex gap-2">
-                <button class="btn btn-outline-danger btn-sm" style="border-color: #800000; color: #800000;">
-                    <i class="bi bi-arrow-left"></i> Back to Dashboard
-                </button>
                 <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
                     @csrf
                     <button type="submit" class="btn btn-dark btn-sm">
