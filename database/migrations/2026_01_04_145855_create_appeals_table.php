@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('appeal_content');
             $table->foreignId('violation_record_id')->constrained('violation_records')->onDelete('cascade');
-            $table->boolean('is_accepted')->default(false);
+            $table->boolean('is_accepted')->nullable();
             $table->timestamps();
         });
     }

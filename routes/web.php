@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\SanctionController;
 use App\Http\Controllers\Admin\ViolationController;
 use App\Http\Controllers\Admin\ViolationsManagementController as AdminViolationsManagementController;
+use App\Http\Controllers\Admin\AppealController as AdminAppealController;
 use App\Http\Controllers\Student\AppealController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\ViolationOverviewController;
@@ -37,6 +38,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         //Sanction Page
         Route::get('/sanction', [SanctionController::class, 'index'])->name('sanction');
+
+        // Appeals Management Page
+        Route::get('/appeals', [AdminAppealController::class, 'index'])->name('appeals.index');
+        Route::post('/appeals/{appeal}/approve', [AdminAppealController::class, 'approve'])->name('appeals.approve');
+        Route::post('/appeals/{appeal}/reject', [AdminAppealController::class, 'reject'])->name('appeals.reject');
 
         //Violation Resource
         Route::resource('/violations-management', ViolationController::class);
