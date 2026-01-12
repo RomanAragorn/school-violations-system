@@ -86,7 +86,7 @@
                         </span>
                     </div>
                     <div class="">
-                        <a href="{{ route('violations-management.index') }}"
+                        <a href="{{ route('admin.violations-management.index') }}"
                             class="text-white icon-link icon-link-hover">
                             View All
                             <i class="bi bi-arrow-right d-flex align-items-center"></i>

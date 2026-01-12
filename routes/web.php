@@ -38,8 +38,6 @@ Route::group(['middleware' => 'auth'], function () {
         //Sanction Page
         Route::get('/sanction', [SanctionController::class, 'index'])->name('sanction');
 
-        // Posting violation
-
         //Violation Resource
         Route::resource('/violations-management', ViolationController::class);
     });
