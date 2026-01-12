@@ -20,8 +20,7 @@ class ViolationController extends Controller
     {
         $violations = Violation::all();
 
-        $violationRecords = ViolationRecord
-            ::with(['status', 'user', 'violationSanction.violation', 'violationSanction.sanction', 'appeal'])
+        $violationRecords = ViolationRecord::with(['status', 'user', 'violationSanction.violation', 'violationSanction.sanction', 'appeal'])
             ->latest()
             ->paginate(10);
 
@@ -151,10 +150,9 @@ class ViolationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request) {
-        $violation_record_id = $request->input('violation_record_id');
-
-        ViolationRecord::destroy($violation_record_id);
+    public function destroy(ViolationRecord $violations_management)
+    {
+        $violations_management->delete();
 
         return redirect()->route('violations-management.index');
     }

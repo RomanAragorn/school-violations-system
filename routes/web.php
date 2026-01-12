@@ -35,19 +35,13 @@ Route::group(['middleware' => 'auth'], function () {
         // Dashboard Page
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard.index');
 
-        // Violations Management Page
-        // Route::get('/violations-management', [AdminViolationsManagementController::class, 'index'])->name('admin.violations-management.index');
-
         //Sanction Page
         Route::get('/sanction', [SanctionController::class, 'index'])->name('admin.sanction');
 
         // Posting violation
         Route::post('/log-violation', [ViolationController::class, 'store'])->name('admin.violations-management.logViolation');
 
-        // Deleting violation (soft deleting)
-        Route::delete('/delete-violation', [ViolationController::class, 'destroy'])->name('admin.violations-management.deleteViolation');
-
-        //Violation Resource (in case of refactor)
+        //Violation Resource
         Route::resource('/violations-management', ViolationController::class);
     });
 
