@@ -56,7 +56,7 @@ class AppealController extends Controller
         $violationRecord = $appeal->violationRecord();
 
         $violationRecord->update([
-            'status_id' => 3,
+            'status_id' => 4, // Set status to 'Dismissed'
         ]);
 
         return redirect()->route('admin.appeals.index')
@@ -80,7 +80,7 @@ class AppealController extends Controller
         $violationRecord = $appeal->violationRecord();
 
         $violationRecord->update([
-            'status_id' => 4,
+            'status_id' => 2, // Set status to 'In progress'
         ]);
 
         return redirect()->route('admin.appeals.index')
