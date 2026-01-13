@@ -1,10 +1,13 @@
-name: Laravel
+name: Build and Test
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
   pull_request:
-    branches: ["main"]
+    branches:
+      - main
+    types: [opened, synchronize]
 
 jobs:
   laravel-tests:
@@ -31,7 +34,7 @@ jobs:
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
       - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress
 
       - name: Generate key
         run: php artisan key:generate
