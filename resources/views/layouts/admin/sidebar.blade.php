@@ -29,6 +29,11 @@
                  {{ request()->routeIs('admin.sanction') ? 'active bg-red fw-bold' : '' }}">
                 <i class="bi bi-award me-3 fs-5"></i> Sanctions
             </a>
+
+            <a href="{{ route('admin.appeals.index') }}" class="nav-link text-white d-flex align-items-center py-2 px-4 mx-3 rounded-pill
+                 {{ request()->routeIs('admin.appeals.*') ? 'active bg-red fw-bold' : '' }}">
+                <i class="bi bi-envelope-exclamation me-3 fs-5"></i> Appeals
+            </a>
         </nav>
     </div>
 </div>
