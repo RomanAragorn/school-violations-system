@@ -12,17 +12,16 @@ use Illuminate\Support\Facades\DB;
  */
 class ViolationRecordFactory extends Factory
 {
-    protected $model = ViolationRecord::class; 
+    protected $model = ViolationRecord::class;
 
     public function definition(): array
     {
         return [
-            'user_id'      => User::inRandomOrder()->first()->id ?? 1,
+            'user_id' => User::where('role_id', 1)->inRandomOrder()->value('id'),
             'vio_sanct_id' => DB::table('violation_sanctions')->inRandomOrder()->value('id') ?? 1,
-            'status_id'    => DB::table('status')->inRandomOrder()->value('id') ?? 1,
-            'created_at'   => now(),
-            'updated_at'   => now(),
+            'status_id' => DB::table('status')->inRandomOrder()->value('id') ?? 1,
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
-
 }
