@@ -1,11 +1,12 @@
 @props(['appeal'])
 
 @php
-    $statusText = is_null($appeal->is_accepted) ? 'PENDING' : ($appeal->is_accepted ? 'APPROVED' : 'REJECTED');
-    $badgeClass = is_null($appeal->is_accepted) ? 'warning' : ($appeal->is_accepted ? 'success' : 'danger');
+$statusText = is_null($appeal->is_accepted) ? 'PENDING' : ($appeal->is_accepted ? 'APPROVED' : 'REJECTED');
+$badgeClass = is_null($appeal->is_accepted) ? 'warning' : ($appeal->is_accepted ? 'success' : 'danger');
 @endphp
 
-<div class="modal fade" id="appealModal{{ $appeal->id }}" tabindex="-1" aria-labelledby="appealModalLabel{{ $appeal->id }}" aria-hidden="true">
+<div class="modal fade" id="appealModal{{ $appeal->id }}" tabindex="-1"
+    aria-labelledby="appealModalLabel{{ $appeal->id }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             {{-- Modal Header --}}
@@ -13,7 +14,8 @@
                 <h5 class="modal-title fw-bold" id="appealModalLabel{{ $appeal->id }}">
                     Appeal Details
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
 
             {{-- Modal Body --}}
@@ -39,7 +41,7 @@
                     <div class="col-md-6">
                         <label class="text-muted text-uppercase small fw-semibold mb-1">Student Name</label>
                         <p class="mb-0">
-                            {{ $appeal->violationRecord->user->first_name }} 
+                            {{ $appeal->violationRecord->user->first_name }}
                             {{ $appeal->violationRecord->user->last_name }}
                         </p>
                     </div>
@@ -71,18 +73,17 @@
             </div>
 
             {{-- Modal Footer --}}
-            <div class="modal-footer border-0 justify-content-between p-4 pt-0">
+            <div class="modal-footer border-0 justify-content-end p-4 pt-0">
                 @if(is_null($appeal->is_accepted))
-                    <form action="{{ route('admin.appeals.approve', $appeal->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-success px-4">Accept</button>
-                    </form>
                     <form action="{{ route('admin.appeals.reject', $appeal->id) }}" method="POST" class="d-inline">
                         @csrf
-                        <button type="submit" class="btn btn-outline-danger px-4 ">Reject</button>
+                        <button type="submit" class="btn btn-danger text-white px-4 ">Reject</button>
+                    </form>
+                    <form action="{{ route('admin.appeals.approve', $appeal->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-success text-white px-4">Accept</button>
                     </form>
                 @endif
-                <button type="button" class="btn btn-dark px-4 ms-auto" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

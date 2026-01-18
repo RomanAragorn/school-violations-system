@@ -51,7 +51,7 @@
 
             {{-- View Button --}}
             <div class="mt-auto">
-                <button class="btn btn-outline-danger w-100 "
+                <button class="btn btn-primary text-white w-100 "
                     data-bs-toggle="modal"
                     data-bs-target="#appealModal{{ $appeal->id }}">
                     View
