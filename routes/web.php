@@ -46,6 +46,10 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Violation Resource
         Route::resource('/violations-management', ViolationController::class);
+
+        // Resolve Violation
+        Route::post('/violations-management/{violations_management}/resolve', [ViolationController::class, 'resolve'])
+            ->name('violations-management.resolve');
     });
 
     // Student Routes

@@ -7,14 +7,22 @@
             <div class="modal-body text-center px-4">
                 <h5 class="fw-bold mb-2" id="{{ $id }}Label">Confirm Delete</h5>
                 <p class="text-muted mb-0"> This action <strong>cannot be undone</strong>. Are you sure you want to
-                    delete record <span class="text-primary fw-bold">{{ $record->formatCaseId() }}</span>? </p>
+                    delete record <span class="text-primary fw-bold">{{ $record->formatCaseId() }}</span>?
+                </p>
                 <input type="hidden" id="delete_id_storage">
             </div>
-            <form action="{{ route('admin.violations-management.destroy', $record)}}" method="POST"> @csrf @method('DELETE')
-                <div class="modal-footer justify-content-center border-0 pt-0 pb-4"> <button type="button"
-                        class="btn btn-light px-4" data-bs-dismiss="modal"> Cancel </button> <button type="submit"
-                        class="btn btn-danger px-4" id="confirmDeleteBtn"> <i class="bi bi-trash me-1"></i> Delete
-                    </button> </div>
+            <form action="{{ route('admin.violations-management.destroy', $record)}}" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="modal-footer justify-content-center border-0 pt-0 pb-4">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-danger px-4" id="confirmDeleteBtn">
+                        <i class="bi bi-trash me-1"></i>
+                        Delete
+                    </button>
+                </div>
             </form>
         </div>
     </div>

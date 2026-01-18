@@ -159,7 +159,6 @@ class ViolationController extends Controller
                 'updated_at' => Carbon::now(),
                 'deleted_at' => null,
             ],
-
         ]);
 
         return $result;
@@ -216,5 +215,18 @@ class ViolationController extends Controller
         $result = $violations_management->delete();
 
         return redirect()->route('admin.violations-management.index')->with('response', 1);
+    }
+
+    /**
+     * Mark a violation record as resolved.
+     */
+    public function resolve(ViolationRecord $violations_management)
+    {
+
+        $violations_management->update([
+            'status_id' => 3,
+        ]);
+
+        return redirect()->route('admin.violations-management.index');
     }
 }

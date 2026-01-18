@@ -98,21 +98,29 @@
                             </td>
 
                             <td class="text-center text-nowrap" onclick="event.stopPropagation()">
-                                <div class="btn-group justify-content-end d-flex" role="group" aria-label="Violation actions">
+                                <div class="btn-group justify-content-end d-flex" role="group"
+                                    aria-label="Violation actions">
+                                    
+                                    {{-- Resolve --}}
                                     @if ($record->status_id === 2)
                                     <button type="button" class="btn btn-sm btn-outline-primary action-resolve-btn"
-                                        title="Mark as resolved">
+                                        title="Mark as resolved" data-bs-toggle="modal"
+                                        data-bs-target="#resolveViolationModal-{{ $record->id }}">
                                         <i class="bi bi-check2-square"></i>
                                     </button>
                                     @endif
 
-                                    <button type="button" class="btn btn-sm btn-outline-primary action-edit-btn" title="Edit violation"
-                                        data-bs-toggle="modal" data-bs-target="#editViolationModal-{{ $record->id }}">
+                                    {{-- Edit --}}
+                                    <button type="button" class="btn btn-sm btn-outline-primary action-edit-btn"
+                                        title="Edit violation" data-bs-toggle="modal"
+                                        data-bs-target="#editViolationModal-{{ $record->id }}">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
 
-                                    <button type="button" class="btn btn-sm btn-outline-primary action-delete-btn" title="Delete violation"
-                                        data-bs-toggle="modal" data-bs-target="#deleteViolationModal-{{ $record->id }}">
+                                    {{-- Delete --}}
+                                    <button type="button" class="btn btn-sm btn-outline-primary action-delete-btn"
+                                        title="Delete violation" data-bs-toggle="modal"
+                                        data-bs-target="#deleteViolationModal-{{ $record->id }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -156,6 +164,10 @@
 <x-modals.view-violation :record="$record" :id="'viewViolationModal-'.$record->id" />
 <x-modals.edit-violation :record="$record" :id="'editViolationModal-'.$record->id" :violations="$violations" />
 <x-modals.delete-violation :id="'deleteViolationModal-'.$record->id" :record="$record" />
+
+@if ($record->status_id === 2)
+<x-modals.resolve-violation :id="'resolveViolationModal-'.$record->id" :record="$record" />
+@endif
 @endforeach
 
 {{-- Log Violation Modal --}}
@@ -165,4 +177,5 @@
 @if(session('response') == 1)
     <x-modals.response-modal />
 @endif
+
 @endsection
