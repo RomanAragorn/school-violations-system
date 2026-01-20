@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AppealDeniedMail extends Mailable
+class AppealAcceptedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -34,7 +34,7 @@ class AppealDeniedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Appeal Denied - ' . $this->appeal->formatCaseId(),
+            subject: 'Appeal Accepted - '. $this->appeal->formatCaseId(),
         );
     }
 
@@ -44,7 +44,7 @@ class AppealDeniedMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.appeal-denied',
+            view: 'emails.appeal-accepted',
         );
     }
 

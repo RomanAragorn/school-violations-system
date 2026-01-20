@@ -81,25 +81,22 @@ class ViolationController extends Controller
         $user_id = $this->getUserId($student_id);
         $violation_count = $this->countViolationOfStudent($user_id, $violation_id);
         $vio_sanct_id = $this->determineViolationSanction($violation_id, $violation_count);
-        $result = $this->insertNewViolation($user_id, $vio_sanct_id);
 
-        if ($result == 0) {
+        $record = ViolationRecord::create([
+            'user_id' => $user_id,
+            'vio_sanct_id' => $vio_sanct_id,
+            'status_id' => 1,
+        ]);
+
+        if (!$record) {
             return 'Error:  Action failed.';
         }
-
-        // Record for mailing
-        $violationRecord = ViolationRecord::with(['status', 'user', 'violationSanction.violation', 'violationSanction.sanction', 'appeal'])
-            ->where('user_id', $user_id)
-            ->latest()
-            ->first();
-
-        // Send Violation Mail (comment out muna baka maubos free credit HAHAHAH)
-        // Mail::to($violationRecord->user->email)
-        //     ->send(new ViolationRecordedMail($violationRecord));
+        // Send Email notification
+        // $this->sendViolationEmail($record, new ViolationRecordedMail($record));
 
         // Redirects page to admin.violations-management.index with response = 1 in session data.
         // This is what enable response-modal blade file to render
-        return redirect()->route('admin.violations-management.index')->with('response', 1);   
+        return redirect()->route('admin.violations-management.index')->with('response', 1);
     }
 
     private function getUserId($student_id)
@@ -145,23 +142,6 @@ class ViolationController extends Controller
             ->id;
 
         return $vio_sanct_id;
-    }
-
-    private function insertNewViolation($user_id, $vio_sanct_id)
-    {
-
-        $result = ViolationRecord::insert([
-            [
-                'user_id' => $user_id,
-                'vio_sanct_id' => $vio_sanct_id,
-                'status_id' => 1,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-                'deleted_at' => null,
-            ],
-        ]);
-
-        return $result;
     }
 
     /**
@@ -228,5 +208,22 @@ class ViolationController extends Controller
         ]);
 
         return redirect()->route('admin.violations-management.index');
+    }
+
+    /**
+     * Send Email for Violation
+     */
+    private function sendViolationEmail(ViolationRecord $record, $mailable)
+    {
+        // Ensure related data and user email are available
+        $record->loadMissing(['status', 'user', 'violationSanction.violation', 'violationSanction.sanction', 'appeal']);
+
+        $user = $record->user;
+
+        if (! $user || ! $user->email) {
+            return;
+        }
+
+        Mail::to('joshua123.jdr@gmail.com')->send($mailable);
     }
 }

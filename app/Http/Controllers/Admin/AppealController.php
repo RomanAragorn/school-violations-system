@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AppealAcceptedMail;
 use App\Mail\AppealDeniedMail;
 use App\Models\Appeal;
 use App\Models\Status;
@@ -61,6 +62,9 @@ class AppealController extends Controller
             'status_id' => 4, // Set status to 'Dismissed'
         ]);
 
+        // Send email notification
+        // $this->sendAppealMail($appeal, new AppealAcceptedMail($appeal));
+
         return redirect()->route('admin.appeals.index')
             ->with('success', 'Appeal has been approved successfully.');
     }
@@ -85,15 +89,26 @@ class AppealController extends Controller
             'status_id' => 2, // Set status to 'In progress'
         ]);
 
-        // // Load related user for mailing
-        // $appeal->load(['violationRecord.user']);
-
-        // if ($appeal->violationRecord && $appeal->violationRecord->user && $appeal->violationRecord->user->email) {
-        //     Mail::to($appeal->violationRecord->user->email)
-        //         ->send(new AppealDeniedMail($appeal));
-        // }
+        // Send email notification
+        // $this->sendAppealMail($appeal, new AppealDeniedMail($appeal));
 
         return redirect()->route('admin.appeals.index')
             ->with('success', 'Appeal has been rejected and the student has been notified.');
+    }
+
+    /**
+     * Send an appeal-related email to the student.
+     */
+    private function sendAppealMail(Appeal $appeal, $mailable): void
+    {
+        $appeal->loadMissing(['violationRecord.user']);
+
+        $user = $appeal->violationRecord->user ?? null;
+
+        if (! $user || ! $user->email) {
+            return;
+        }
+
+        Mail::to('joshua123.jdr@gmail.com')->send($mailable);
     }
 }
