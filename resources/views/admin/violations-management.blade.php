@@ -13,6 +13,15 @@
                 Log Violation
             </button>
         </div>
+        @if($errors->any())
+        @foreach($errors->all() as $error)
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ $error }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endforeach
+        @endif
         <div class="card-body">
             <div class="row mb-3 g-2">
                 {{-- Search --}}
@@ -151,7 +160,7 @@
             </div>
 
         </div>
-        
+
         {{-- Pagination Links --}}
         <div class="card-footer bg-white border-0 py-3">
             <div class="row align-items-center">

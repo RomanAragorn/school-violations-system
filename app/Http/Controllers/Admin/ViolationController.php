@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ViolationRequest;
 use App\Models\Status;
 use App\Models\User;
 use App\Models\Violation;
@@ -74,12 +75,14 @@ class ViolationController extends Controller
     /**
      * Store a newly created violation in storage.
      */
-    public function store(Request $request)
+    public function store(ViolationRequest $request)
     {
+        $data = $request->validated();
+
         // Get Data
-        $student_id = request('student_id');
-        $violation_id = request('violation_id');
-        $notes = request('description');
+        $student_id = $data['student_id'];
+        $violation_id = $data['violation_id'];
+        $notes = $data['description'] ?? null;
         $user_id = User::where('role_id', 1)->where('school_id', $student_id)->value('id');
 
         // Get Next Offense Count
@@ -92,7 +95,7 @@ class ViolationController extends Controller
         $record = ViolationRecord::create([
             'user_id' => $user_id,
             'vio_sanct_id' => $vio_sanct_id,
-            'notes'=> $notes,
+            'notes' => $notes,
             'status_id' => 1,
         ]);
 
